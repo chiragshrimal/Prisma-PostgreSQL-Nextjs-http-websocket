@@ -1,31 +1,18 @@
-name: Deploy on dev
-
+name: Deploy to Dev
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  deploy:
-    name: Push to dev 
+  redeploy_everything:
     runs-on: ubuntu-latest
-
+    name: Deploying everything to the staging cluster
     steps:
-    # clone the reposatary from github to github vertual machine ubuntu
-      - name: Checkout the code
-        uses: actions/checkout@v2
-
-        # using ssh can go into the machine EC2 
-        # so we need some information like private key , host name , port
-      - name: Execute remote SSH commands using password
-        uses: appleboy/ssh-action@v1
-        with:
-          host: 13.203.199.91
-          username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            "cd week-25-ci-next-app/ && git pull origin main && export PATH=/home/ubuntu/.nvm/versions/node/v22.16.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin && npm install -g pnpm && pnpm install && pnpm run build && pm2 restart fe-sever && pm2 restart http-sever && pm2 restart ws-sever"
+      - run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
+          mkdir -p /home/runner/.ssh
+          ls /home/runner/.ssh
+          touch /home/runner/.ssh/known_hosts
+          echo "${{ secrets.KNOWN_HOSTS }}" &> /home/runner/.ssh/known_hosts
+          chmod 700 /home/runner/ssh_key
+          ssh -i ~/ssh_key root@64.227.147.124 -t "cd Prisma-PostgreSQL-Nextjs-http-websocket && git pull origin main && export PATH=/home/ubuntu/.nvm/versions/node/v22.16.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin && npm install -g pnpm && pnpm install && pnpm run build && pm2 restart nextjs-server && pm2 restart ht-server && pm2 restart ws-server"
