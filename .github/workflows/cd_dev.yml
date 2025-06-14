@@ -1,4 +1,4 @@
-name: Deploy on EC2
+name: Deploy on dev
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Push to EC2
+    name: Push to dev 
     runs-on: ubuntu-latest
 
     steps:
@@ -24,4 +24,12 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          script: ./deploy.sh
+          script: |
+            cd Prisma-PostgreSQL-Nextjs-http-websocket
+            git pull origin main
+            npm install -g pnpm 
+            pnpm install 
+            pnpm run build 
+            pm2 restart nextjs-server 
+            pm2 restart ht-server
+            pm2 restart ws-server
