@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
         # using ssh can go into the machine EC2 
-        # so we need some information like private key , host name , port 
+        # so we need some information like private key , host name , port
       - name: Execute remote SSH commands using password
         uses: appleboy/ssh-action@v1
         with:
