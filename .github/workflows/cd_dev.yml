@@ -28,12 +28,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cd Prisma-PostgreSQL-Nextjs-http-websocket
-            git pull origin main
-            export PATH=/home/ubuntu/.nvm/versions/node/v22.16.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
-            npm install -g pnpm 
-            pnpm install 
-            pnpm run build 
-            pm2 restart nextjs-server 
-            pm2 restart ht-server
-            pm2 restart ws-server
+            "cd week-25-ci-next-app/ && git pull origin main && export PATH=/home/ubuntu/.nvm/versions/node/v22.16.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin && npm install -g pnpm && pnpm install && pnpm run build && pm2 restart fe-sever && pm2 restart http-sever && pm2 restart ws-sever"
