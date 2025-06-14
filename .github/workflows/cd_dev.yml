@@ -27,6 +27,7 @@ jobs:
           script: |
             cd Prisma-PostgreSQL-Nextjs-http-websocket
             git pull origin main
+            export /home/ubuntu/.nvm/versions/node/v22.16.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
             npm install -g pnpm 
             pnpm install 
             pnpm run build 
