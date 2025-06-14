@@ -1,0 +1,27 @@
+name: Deploy on EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Push to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+    # clone the reposatary from github to github vertual machine ubuntu
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+        # using ssh can go into the machine EC2 
+        # so we need some information like private key , host name , port 
+      - name: Execute remote SSH commands using password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: 13.203.199.91
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: ./deploy.sh
