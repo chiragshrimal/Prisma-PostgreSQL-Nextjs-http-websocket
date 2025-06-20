@@ -15,4 +15,4 @@ jobs:
           touch /home/runner/.ssh/known_hosts
           echo "${{ secrets.KNOWN_HOSTS }}" &> /home/runner/.ssh/known_hosts
           chmod 700 /home/runner/ssh_key
-          ssh -i ~/ssh_key ubuntu@43.204.98.128 -t "cd Prisma-PostgreSQL-Nextjs-http-websocket && git pull origin main && export PATH=/root/.nvm/versions/node/v22.13.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin && npm install -g pnpm && pnpm install && pnpm run build && pm2 restart dev-nextjs-sever && pm2 restart dev-ht-sever && pm2 restart dev-ws-sever"
+          ssh -i ~/ssh_key ubuntu@43.204.98.128 -t "cd Prisma-PostgreSQL-Nextjs-http-websocket && git pull origin main && export PATH=/home/ubuntu/.nvm/versions/node/v22.16.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin && npm install -g pnpm && pnpm install && pnpm run build && pm2 restart dev-nextjs-sever && pm2 restart dev-ht-sever && pm2 restart dev-ws-sever"
