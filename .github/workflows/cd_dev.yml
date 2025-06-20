@@ -21,11 +21,11 @@ jobs:
           ssh -i ~/ssh_key -o StrictHostKeyChecking=no ubuntu@13.204.65.197 -t "
             cd Prisma-PostgreSQL-Nextjs-http-websocket &&
             git pull origin main &&
-            export PATH=/home/ubuntu/.nvm/versions/node/v22.16.0/bin:\$PATH &&
+            export PATH=/home/ubuntu/.nvm/versions/node/v22.16.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin &&
             npm install -g pnpm &&
             pnpm install &&
             pnpm run build &&
-            pm2 restart nextjs-server --update-env &&
-            pm2 restart ht-server --update-env &&
-            pm2 restart ws-server --update-env
+            pm2 restart dev-nextjs-server &&
+            pm2 restart dev-ht-server &&
+            pm2 restart dev-ws-server
           "
