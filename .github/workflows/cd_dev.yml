@@ -25,7 +25,7 @@ jobs:
             npm install -g pnpm &&
             pnpm install &&
             pnpm run build &&
-            pm2 restart nextjs-server --update-env &&
-            pm2 restart ht-server --update-env &&
-            pm2 restart ws-server --update-env
+            pm2 restart dev-nextjs-server --update-env &&
+            pm2 restart dev-ht-server --update-env &&
+            pm2 restart dev-ws-server --update-env
           "
