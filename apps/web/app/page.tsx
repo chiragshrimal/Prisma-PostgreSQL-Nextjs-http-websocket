@@ -9,7 +9,7 @@ export default async  function Home() {
   return (
     <div>
       {user?.username}
-     password;
+     pasrd;
       {user?.username}
     </div>
   );
