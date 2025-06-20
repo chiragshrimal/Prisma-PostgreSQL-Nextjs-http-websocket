@@ -1,31 +1,18 @@
 name: Deploy to Dev
-
 on:
   push:
-    branches: [ main ]
+    branches: [ main ] 
 
 jobs:
   redeploy_everything:
     runs-on: ubuntu-latest
     name: Deploying everything to the staging cluster
-
     steps:
       - run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-          chmod 600 ~/ssh_key
-
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
           mkdir -p /home/runner/.ssh
-          echo "${{ secrets.KNOWN_HOSTS }}" > /home/runner/.ssh/known_hosts
-          chmod 644 /home/runner/.ssh/known_hosts
-
-          ssh -i ~/ssh_key -o StrictHostKeyChecking=no ubuntu@13.204.65.197 -t "
-            cd Prisma-PostgreSQL-Nextjs-http-websocket &&
-            git pull origin main &&
-            export PATH=/home/ubuntu/.nvm/versions/node/v22.16.0/bin:\$PATH &&
-            npm install -g pnpm &&
-            pnpm install &&
-            pnpm run build &&
-            pm2 restart dev-nextjs-server --update-env &&
-            pm2 restart dev-ht-server --update-env &&
-            pm2 restart dev-ws-server --update-env
-          "
+          ls /home/runner/.ssh
+          touch /home/runner/.ssh/known_hosts
+          echo "${{ secrets.KNOWN_HOSTS }}" &> /home/runner/.ssh/known_hosts
+          chmod 700 /home/runner/ssh_key
+          ssh -i ~/ssh_key ubuntu@13.204.65.197 -t "cd Prisma-PostgreSQL-Nextjs-http-websocket && git pull origin main && export PATH=/home/ubuntu/.nvm/versions/node/v22.16.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin && npm install -g pnpm && pnpm install && pnpm run build && pm2 restart dev-nextjs-server && pm2 restart dev-ht-server && pm2 restart dev-ws-server"
